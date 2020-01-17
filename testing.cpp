@@ -6,9 +6,9 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
-#include "Shader.h"
-#include "Window.h"
-#include "GraphicsBuffer.h"
+#include "src/graphics/Shader.h"
+#include "src/graphics/Window.h"
+#include "src/graphics/GraphicsBuffer.h"
 
 
 int main()

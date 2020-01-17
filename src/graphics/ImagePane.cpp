@@ -19,10 +19,10 @@ static VertexArray& vertexArray() {
     if (first) {
         first = false;
 
-        vb->allocateBuffer(4, {1.0f, 1.0f, 0.0f, 1.0f, 1.0f, // top right
-                               1.0f, -1.0f, 0.0f, 1.0f, 0.0f, // bottom right
-                               -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, // bottom left
-                               -1.0f, 1.0f, 0.0f, 0.0f, 1.0f});
+        vb->allocateBuffer(4, {1.0f, 1.0f, 0.0f, 1.0f, 0.0f, // top right
+                               1.0f, -1.0f, 0.0f, 1.0f, 1.0f, // bottom right
+                               -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, // bottom left
+                               -1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
 
         vbl.addElement<float>(3);
         vbl.addElement<float>(2);
@@ -40,23 +40,29 @@ static IndexBuffer& indexBuffer(){
     return ib;
 }
 
-ImagePane::ImagePane(std::shared_ptr<Window> window, const Image& image): Pane(window), mTexture(std::make_shared<Texture>()) {
+ImagePane::ImagePane(std::shared_ptr<Window> window): Pane(window), mTexture(std::make_shared<Texture>()) {
+}
+ImagePane::ImagePane(std::shared_ptr<Window> window, const Image& image): ImagePane(window) {
     setImage(image);
 }
 ImagePane::~ImagePane(){
 
 }
 void ImagePane::setImage(const Image& image){
+    imageSet = true;
     mTexture->allocateTexture(image);
 }
 
 void ImagePane::render(const Viewport &viewport) {
     viewport.bind();
 
-    mTexture->bind();
+
+
+    imageShader().setUniform("texture1",0);
     imageShader().bind();
     vertexArray().bind();
     indexBuffer().bind();
+    mTexture->bind(0);
     glDrawElements(GL_TRIANGLES,indexBuffer().count(),GL_UNSIGNED_INT, nullptr);
 }
 

@@ -6,6 +6,7 @@
 
 #include <string>
 #include <glm/glm.hpp>
+#include "glad/glad.h"
 
 
 struct ShaderProgramSource {
@@ -34,6 +35,7 @@ public:
     void bind() const;
     void unbind() const;
 
+    void setUniform(const std::string& name, const int val) const;
     void setUniform(const std::string& name, const float val) const;
     void setUniform(const std::string& name, const glm::mat4& mat) const;
     void setUniform(const std::string& name, const glm::vec4& vec) const;

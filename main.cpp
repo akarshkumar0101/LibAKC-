@@ -1,13 +1,14 @@
 #include <iostream>
-
-#include "include/TrianglePane.h"
-#include "include/GridPane.h"
-#include "include/DrawingPane.h"
-#include "include/ImagePane.h"
+#include "src/graphics/TrianglePane.h"
+#include "src/graphics/GridPane.h"
+#include "src/graphics/DrawingPane.h"
+#include "src/graphics/ImagePane.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include <glfw/glfw3.h>
 
 
 void testLines(){
@@ -127,7 +128,80 @@ void testWindowAndNode(){
     }
 
 }
+
+void test2Windows(){
+    Window window1(300,300,"window1");
+    Window window2(300,300,"window2");
+
+    while(!window1.shouldClose()){
+        window1.swapBuffers();
+        window1.pollEvents();
+
+        window2.swapBuffers();
+        window2.pollEvents();
+    }
+}
+
+void testError(){
+    auto window = std::make_shared<Window>(500,500,"hey");
+
+    Image* imgs[3];
+    imgs[0] = new Image("/Users/akarshkumar0101/Pictures/Wallpapers/space galxy with man.jpg");
+    imgs[1] = new Image("/Users/akarshkumar0101/Pictures/Wallpapers/daylight-environment-forest-idyllic-459225.jpg");
+//    imgs[2] = new Image("resources/img/awesomeface.png");
+
+//    Image img(mnist::imageWidth,mnist::imageHeight,1, mnist::testImages->data()+(28*28*100));
+    auto gridPane = std::make_shared<GridPane>(window, std::pair{2,1});
+
+    std::vector<std::shared_ptr<ImagePane>> imagePanes(2);
+    imagePanes[0] = std::make_shared<ImagePane>(window);
+    gridPane->setChild(imagePanes[0],{0,0});
+
+//    gridPane->setChild(imagePanes[1],{1,0});
+
+//    imagePanes[1] = std::make_shared<ImagePane>(window);
+//    Texture tex;
+    unsigned int temp;
+    glGenTextures(1, &temp);
+    glActiveTexture(GL_TEXTURE15);
+    glBindTexture(GL_TEXTURE_2D, temp);
+//    glActiveTexture(GL_TEXTURE0);
+
+
+    imagePanes[0]->setImage(*imgs[0]);
+
+
+
+
+    window->setRoot(gridPane);
+
+    int batch=-1;
+    bool isPressed = false;
+
+    while(!window->shouldClose()){
+        if(window->isKeyPressed(GLFW_KEY_SPACE) && !isPressed){
+            isPressed = true;
+            batch++;
+
+//            imagePanes[0]->setImage(*imgs[batch%3]);
+            std::cout<<"press"<<std::endl;
+        }
+        if(!(window->isKeyPressed(GLFW_KEY_SPACE))){
+            isPressed = false;
+        }
+
+        glClearColor(0.0,0.0,0.0,1.0);
+        glClear(GL_COLOR_BUFFER_BIT);
+        window->render();
+
+        window->swapBuffers();
+        window->pollEvents();
+    }
+
+}
 int main() {
+//    testError();
+//    test2Windows();
     testWindowAndNode();
 //    testingOpenGL();
 //    try{

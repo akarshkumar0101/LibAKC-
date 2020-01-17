@@ -5,6 +5,7 @@
 #pragma once
 
 #include <string>
+#include "../Array.h"
 
 
 class Image {
@@ -16,6 +17,10 @@ private:
 public:
     Image(const std::string& fileName);
     Image(int width, int height, int numColorChannels, unsigned char* data);
+    Image(int width, int height, int numColorChannels, float* data);
+    Image(FArray2D& array2D);
+    // array3d index with [y][x][channel]
+    Image(FArray3D& array3D);
     ~Image();
 
     unsigned int getWidth() const;

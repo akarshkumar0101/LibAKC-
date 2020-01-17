@@ -6,13 +6,12 @@
 
 #include <string>
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <vector>
 #include <unordered_set>
 
 #include "Shader.h"
 #include "Image.h"
+#include "glad/glad.h"
 
 enum BufferUsage{
     STATIC, DYNAMIC
@@ -149,6 +148,7 @@ public:
     void allocateTexture(const Image& image);
 
     void bind();
+    void bind(unsigned int textureUnit);
     void unbind();
 };
 

@@ -8,7 +8,6 @@
 #include <memory>
 
 #include "Window.h"
-#include "glad/glad.h"
 
 class Viewport {
 private:
@@ -26,7 +25,7 @@ public:
     int width()const{ return mWidth; }
     int height()const{ return mHeight; }
 
-    void bind()const{glViewport(mX,mY,mWidth,mHeight);};
+    void bind()const;
 };
 
 class Window;

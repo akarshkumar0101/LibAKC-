@@ -14,7 +14,11 @@ private:
 //    std::shared_ptr<Image> mImage;
     std::shared_ptr<Texture> mTexture;
 public:
+
+    bool imageSet = false;
+    ImagePane(std::shared_ptr<Window> window);
     ImagePane(std::shared_ptr<Window> window, const Image& image);
+
     ~ImagePane();
 
     void setImage(const Image& image);

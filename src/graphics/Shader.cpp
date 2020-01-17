@@ -96,6 +96,10 @@ void Shader::unbind() const {
     glUseProgram(0);
 }
 
+void Shader::setUniform(const std::string& name, const int val) const{
+    bind();
+    glUniform1i(getUniformLocation(name), val);
+}
 void Shader::setUniform(const std::string& name, const float val) const {
     bind();
     glUniform1f(getUniformLocation((name)), val);
@@ -112,14 +116,14 @@ void Shader::setUniform(const std::string& name, const glm::vec4& vec) const {
 int Shader::getUniformLocation(const std::string& name) const {
     int location = glGetUniformLocation(mShaderProgramID, name.c_str());
     if(location==-1){
-        throw std::string("Invalid name for uniform");
+        throw std::runtime_error("Invalid name for uniform");
     }
     return location;
 }
 int Shader::getAttribLocation(const std::string name) const{
     int location = glGetAttribLocation(mShaderProgramID, name.c_str());
     if(location==-1){
-        throw std::string("Invalid name for attribute");
+        throw std::runtime_error("Invalid name for attribute");
     }
     return location;
 }
